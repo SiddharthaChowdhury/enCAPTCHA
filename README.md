@@ -8,7 +8,9 @@ A "Completely Automated Public Turing test to tell Computers and Humans Apart" a
 
 - Control on number of wrong attempt (Reloads the page on attempt expires)
 - Auto reload captcha after specific interval
-- Shortcut detection, i.e. reloads captcha if any shortcut is detected (like <ctrl> + V or RightClick + paste)
+- Shortcut detection, i.e. reloads captcha if any shortcut is detected (like <ctrl> + V or RightClick + paste);
+- Option to add icon and to change CAPTCHA theme, manually.
+- Added (class) identifier to the major elements of CAPTCHA, for fine grain UI customisation.
 
 ##CONTENT
 
@@ -35,41 +37,30 @@ A "Completely Automated Public Turing test to tell Computers and Humans Apart" a
 <a name="example"></a>
 ####EXAMPLE 
 	
-	// $(document).ready(function(){}) // If JQuery
-	  window.onload = function(){ 
-
-	  	// The configuration section
-		var enc3 = new Encaptcha({
-			char_count: 4, // 5 or 6
-			container: '#captcha_container',
-			reload_sec: 30,
-			form: '#exampleForm',
-			onSuccess: function(){
-				alert("Captcha match was successful, OK to redirect");
-			},
-			onfailure: function(){
-				alert("Captcha match was failed");
-			},
-
+	$(document).ready(function(){
+		var obj1 = new Encaptcha({
+			config:{
+				container: '#captcha1',
+				reload_interval: 10, // optional
+				reloadBtn_text: '<i class="fa fa-refresh" aria-hidden="true"></i> Refresh', // optional
+				allowed_attempt: 5 //optional,
+				themeColorHex: '#E6E6E6', //optional
+			}
 		});
-		
-		// Execute the captcha
-		enc3.run();
-	  }		
+		obj1.start();
+	});		
 
 <a name="CONFIGURATION"></a>
 ##CONFIGURATION / Options 
 
-* **`char_count:`** Strength of CAPTCHA (ie number of letters in CAPTCHA image). *Recommended-value: 5 or 6* . It cannot be less than 5
 * **`container:`**  DOM element where you want the CAPTCHA to be displayed. Value can be `id` or `class` of the element. Please make sure this CAPTCHA container is **empty**.  *Example value:* `'#container'` or `'.container'` .  
-* **`reload_sec:`** The CAPTCHA must reload after certain seconds so this value should contain an integer. *Recommended-value: 30 or 60*
-* **`form`** : *[OPTIONAL]* If you want to use CAPTCHA validation on form submit, you should pass the form reference here. Value can be `id` or `class`. *Example value:* `'#form'` or `'.form'` 
+* **`reload_interval:`** The CAPTCHA must reload after certain seconds so this value should be an integer. *Recommended-value: 30 or 60* 
 * **`onSuccess:`**  *[OPTIONAL]* The value has to be an anonymous function which will execute when the CAPTCHA is successfully validated.
 * **`onfailure:`**  *[OPTIONAL]* The value has to be an anonymous function which will execute when the CAPTCHA validation FAILS.
 
 ---------------------------------------------------
 
-**`object.run()`** Is REQUIRED to run the captcha.
+**`object.start()`** Is REQUIRED to run the captcha.
 
 <a name="browser"></a>
 ##Browser support 
