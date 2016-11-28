@@ -1,6 +1,6 @@
 <a name="intro"></a> 
 # En-captcha 
-![alt tag](https://github.com/SiddharthaChowdhury/en-captcha/blob/master/Screen-shot.png)
+![Image missing](https://github.com/SiddharthaChowdhury/enCAPTCHA/blob/master/img.webp)
 
 A "Completely Automated Public Turing test to tell Computers and Humans Apart" aka CAPTCHA, build on JavaScript, this plugin requires no dependencies. A simple integration to prevent bots from submiting your form
 
