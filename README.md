@@ -8,9 +8,7 @@ A "Completely Automated Public Turing test to tell Computers and Humans Apart" a
 
 - Control on number of wrong attempt (Reloads the page on attempt expires)
 - Auto reload captcha after specific interval
-- Shortcut detection, i.e. reloads captcha if any shortcut is detected (like <ctrl> + V or RightClick + paste);
-- Option to add icon and to change CAPTCHA theme, manually.
-- Added (class) identifier to the major elements of CAPTCHA, for fine grain UI customisation.
+- Shortcut detection, i.e. reloads captcha if any shortcut is detected (like <ctrl> + V or RightClick + paste)
 
 ##CONTENT
 
@@ -38,25 +36,33 @@ A "Completely Automated Public Turing test to tell Computers and Humans Apart" a
 ####EXAMPLE 
 	
 	$(document).ready(function(){
-		var obj1 = new Encaptcha({
+		var obj = new Encaptcha({
 			config:{
-				container: '#captcha1',
-				reload_interval: 10, // optional
-				reloadBtn_text: '<i class="fa fa-refresh" aria-hidden="true"></i> Refresh', // optional
-				allowed_attempt: 5 //optional,
-				themeColorHex: '#E6E6E6', //optional
+				container: '#captcha2',
+				reload_interval: 70,
+				themeColorHex: '#E6E6E6',
+				reloadBtn_text: '<i class="fa fa-refresh" aria-hidden="true"></i> Refresh',
+				allowed_attempt: 5
+			},
+			onSuccess: function(){
+				console.log("YAY! success")
+			},
+			onFailure: function(){
+				console.log('Am i a robot?')
 			}
 		});
-		obj1.start();
+		obj.start();
 	});		
 
 <a name="CONFIGURATION"></a>
 ##CONFIGURATION / Options 
 
+* **`char_count:`** Strength of CAPTCHA (ie number of letters in CAPTCHA image). *Recommended-value: 5 or 6* . It cannot be less than 5
 * **`container:`**  DOM element where you want the CAPTCHA to be displayed. Value can be `id` or `class` of the element. Please make sure this CAPTCHA container is **empty**.  *Example value:* `'#container'` or `'.container'` .  
-* **`reload_interval:`** The CAPTCHA must reload after certain seconds so this value should be an integer. *Recommended-value: 30 or 60* 
+* **`reload_interval:`** *[OPTIONAL]* The CAPTCHA must reload after certain seconds so this value should contain an integer. *Recommended-value: 30 or 60*. Default is 45
+* **`allowed_attempt:`** *[OPTIONAL]* Number of times a user is allowed to enter wrong CAPTCHA. Accepts a number. Default - infinite
 * **`onSuccess:`**  *[OPTIONAL]* The value has to be an anonymous function which will execute when the CAPTCHA is successfully validated.
-* **`onfailure:`**  *[OPTIONAL]* The value has to be an anonymous function which will execute when the CAPTCHA validation FAILS.
+* **`onfailure:`**  *[OPTIONAL]* The value has to be an anonymous function which will execute when the CAPTCHA validation FAILS each time.
 
 ---------------------------------------------------
 
@@ -74,17 +80,12 @@ NO Dependency. It is **NOT** dependent on any library/framework like JQuery or a
 
 ##Resources##
 
- Online [Image Cropping](http://croppiconline.com/en)
-
- Online [Sprite generator](https://www.leshylabs.com/apps/sstool)
-
- Online [OCR](http://www.ocrconvert.com/)
-
- Online [Image compress](http://optimizilla.com)
-
- Online [Image metadata viewer](http://regex.info/exif.cgi)
-
- Online [Base64](http://jsfiddle.net/handtrix/xztfbx1m/)
+- Online [Image Cropping](http://croppiconline.com/en)
+- Online [Sprite generator](https://www.leshylabs.com/apps/sstool)
+- Online [OCR](http://www.ocrconvert.com/)
+- Online [Image compress](http://optimizilla.com)
+- Online [Image metadata viewer](http://regex.info/exif.cgi)
+- Online [Base64](http://jsfiddle.net/handtrix/xztfbx1m/)
  
 ##CONTENT
 

@@ -1,10 +1,12 @@
 class Encaptcha {
 	constructor(raw){
 		this.container = raw.config.container;
-		this.lap = parseInt(raw.config.reload_interval) || 30;
+		this.lap = parseInt(raw.config.reload_interval) || 45;
 		this.reload_btn_text = raw.config.reloadBtn_text || 'Reload';
 		this.attempt = (raw.config.allowed_attempt > 0 ? raw.config.allowed_attempt : -1) || -1;
 		this.themeColorHex = raw.config.themeColorHex || '#CCC';
+		this.onsuccess	= raw.onSuccess || function(){};
+		this.onfailure	= raw.onFailure || function(){};
 		
 		this.final 		= null;
 		this.timestamp 	= null;
@@ -128,6 +130,21 @@ class Encaptcha {
 		}, 1000);
 	}
 
+	enc_success(){
+		clearInterval(this.timerHandler);
+		this.final.innerHTML = 'Validation complete'
+		this.onsuccess();
+
+	}
+
+	enc_failure(){
+		this.draw_canvas();
+		var self  = this;
+		// setTimeout(function(){
+			self.onfailure()
+		// },1000);
+	}
+
 	lookup_encaptcha(_this){
 		var self = this;
 		var value = _this.value; 
@@ -138,28 +155,25 @@ class Encaptcha {
 				if(value.charAt(i) == subAtlas[i].name){
 					yielde+=subAtlas[i].name;
 				}
-				else
-					self.draw_canvas();
 			}
 			// console.log(self.kyPressCnt)
 			if(yielde == value){
 				if(self.kyPressCnt >= self.char_count){
-					clearInterval(self.timerHandler);
-					self.final.innerHTML = 'Validation complete'
+					self.enc_success();
 				}
 				else
-					self.draw_canvas();		
+					self.enc_failure();		
 			}
 			else{
 				if(self.attempt == -1){
-					self.draw_canvas();
+					self.enc_failure();
 				}
 				else{
 					self.attempt --;
 					if(self.attempt == 0){
 						location.reload();	
 					}
-					self.draw_canvas();
+					self.enc_failure();
 				}
 			}
 		}

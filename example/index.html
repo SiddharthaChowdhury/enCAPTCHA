@@ -99,10 +99,15 @@
 				reload_interval: 70,
 				themeColorHex: '#E6E6E6',
 				allowed_attempt: 0
+			},
+			onSuccess: function(){
+				console.log("YAY! success")
+			},
+			onFailure: function(){
+				console.log('Am i a robot?')
 			}
 		});
 		obj2.start();
-		
 	});
 
 </script>
