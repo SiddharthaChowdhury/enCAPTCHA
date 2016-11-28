@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<style type="text/css">
+		.wrapperr{
+			display: flex;
+			flex-direction:row;
+		}
+		.container1{
+			margin: 100px 0px 100px 50;
+			/*width: 300px;*/
+			height: 500px;
+			/*background: #f2f2f2;*/
+			padding:15px;
+			order: 1;
+		}
+		.container2{
+			margin: 100px 0px 100px 50;
+			/*width: 300px;*/
+			height: 500px;
+			/*background: #f2f2f2;*/
+			padding:15px;
+			order: 2;
+		}
+		input{
+			width: 100%;
+			height: 30px;
+			margin-bottom: 10px;
+		}
+		button{
+			padding: 10px 13px;
+			background-color: #FFF;
+			float: right; 
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+	<div class="wrapperr">
+		<div class="container1" >
+			<form method="post" action="example.com">
+				<h4>Registration form</h4>
+				<div>
+					<label for="name"> Name</label>
+					<input type="text" name="name" id="name">
+				</div>
+				<div>
+					<label for="name"> Email</label>
+					<input type="email" name="email" id="email">
+				</div>
+				<div>
+					<label for="password"> Password</label>
+					<input type="password" name="name" id="password">
+				</div>
+				<div id="captcha1"></div>
+				<button type="submit">Sign up</button>
+			</form>
+		</div>
+		<div class="container2" >
+			<form method="post" action="example.com">
+				<h4>Registration form</h4>
+				<div>
+					<label for="name"> Name</label>
+					<input type="text" name="name" id="name">
+				</div>
+				<div>
+					<label for="name"> Email</label>
+					<input type="email" name="email" id="email">
+				</div>
+				<div>
+					<label for="password"> Password</label>
+					<input type="password" name="name" id="password">
+				</div>
+				<div id="captcha2"></div>
+				<button type="submit">Sign up</button>
+			</form>
+		</div>
+	</div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="../dist/encaptcha.js"></script>
+<script>
+	$(document).ready(function(){
+		var obj1 = new Encaptcha({
+			config:{
+				container: '#captcha1',
+				reload_interval: 10,
+				reloadBtn_text: '<i class="fa fa-refresh" aria-hidden="true"></i> Refresh',
+				allowed_attempt: 0
+			}
+		});
+		obj1.start();
+		
+		var obj2 = new Encaptcha({
+			config:{
+				container: '#captcha2',
+				reload_interval: 70,
+				themeColorHex: '#E6E6E6',
+				allowed_attempt: 0
+			}
+		});
+		obj2.start();
+		
+	});
+
+</script>
+</html>
