@@ -8,7 +8,7 @@ A "Completely Automated Public Turing test to tell Computers and Humans Apart" a
 
 - Control on number of wrong attempt (Reloads the page on attempt expires)
 - Auto reload captcha after specific interval
-- Shortcut detection, i.e. reloads captcha if any shortcut is detected (like <ctrl> + V or RightClick + paste)
+- Shortcut detection, i.e. reloads captcha if any shortcut is detected (like ctrl + V or RightClick + paste)
 
 ##CONTENT
 
@@ -51,7 +51,6 @@ A "Completely Automated Public Turing test to tell Computers and Humans Apart" a
 				console.log('Am i a robot?')
 			}
 		});
-		obj.start();
 	});		
 
 <a name="CONFIGURATION"></a>
@@ -64,9 +63,7 @@ A "Completely Automated Public Turing test to tell Computers and Humans Apart" a
 * **`onSuccess:`**  *[OPTIONAL]* The value has to be an anonymous function which will execute when the CAPTCHA is successfully validated.
 * **`onfailure:`**  *[OPTIONAL]* The value has to be an anonymous function which will execute when the CAPTCHA validation FAILS each time.
 
----------------------------------------------------
 
-**`object.start()`** Is REQUIRED to run the captcha.
 
 <a name="browser"></a>
 ##Browser support 
