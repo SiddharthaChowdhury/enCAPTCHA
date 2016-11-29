@@ -40,7 +40,7 @@
 <body>
 	<div class="wrapperr">
 		<div class="container1" >
-			<form method="post" action="example.com">
+			<form method="post" id="form1" action="example.com">
 				<h4>Registration form</h4>
 				<div>
 					<label for="name"> Name</label>
@@ -66,12 +66,12 @@
 					<input type="text" name="name" id="name">
 				</div>
 				<div>
-					<label for="name"> Email</label>
+					<label for="email"> Email</label>
 					<input type="email" name="email" id="email">
 				</div>
 				<div>
 					<label for="password"> Password</label>
-					<input type="password" name="name" id="password">
+					<input type="password" name="password" id="password">
 				</div>
 				<div id="captcha2"></div>
 				<button type="submit">Sign up</button>
@@ -80,15 +80,24 @@
 	</div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="../dist/encaptcha.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js" ></script>
+<script src="../dist/encaptcha.min.js"></script>
 <script>
 	$(document).ready(function(){
+		$('#form2').validate({
+			rules:{
+				name: "required",
+				email: "required"
+			}
+		})
+
 		var obj1 = new Encaptcha({
 			config:{
 				container: '#captcha1',
 				reload_interval: 10,
 				reloadBtn_text: '<i class="fa fa-refresh" aria-hidden="true"></i> Refresh',
-				allowed_attempt: 0
+				allowed_attempt: 0,
+				form: '#form1'
 			}
 		});
 

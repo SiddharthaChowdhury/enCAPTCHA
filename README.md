@@ -42,13 +42,14 @@ A "Completely Automated Public Turing test to tell Computers and Humans Apart" a
 				reload_interval: 70,
 				themeColorHex: '#E6E6E6',
 				reloadBtn_text: '<i class="fa fa-refresh" aria-hidden="true"></i> Refresh',
-				allowed_attempt: 5
+				allowed_attempt: 5,
+				form: '#form1'
 			},
 			onSuccess: function(){
 				console.log("YAY! success")
 			},
 			onFailure: function(){
-				console.log('Am i a robot?')
+				console.log('Hi I might be a robot~ T_T ')
 			}
 		});
 	});		
@@ -62,13 +63,13 @@ A "Completely Automated Public Turing test to tell Computers and Humans Apart" a
 * **`allowed_attempt:`** *[OPTIONAL]* Number of times a user is allowed to enter wrong CAPTCHA. Accepts a number. Default - infinite
 * **`onSuccess:`**  *[OPTIONAL]* The value has to be an anonymous function which will execute when the CAPTCHA is successfully validated.
 * **`onfailure:`**  *[OPTIONAL]* The value has to be an anonymous function which will execute when the CAPTCHA validation FAILS each time.
-
+* **`form:`**  *[OPTIONAL]* This value has be the form identifier which you want to protect from bots. Example: '#form_id' or '.form_class'
 
 
 <a name="browser"></a>
 ##Browser support 
 
-Tested in all modern browser ( IE-9+, Chrome, Opera, FF, Safari )
+Tested in all modern browser ( Chrome, Opera, FF, Safari ) Doesnt work in old IE
 
 <a name="dependency"></a>
 ##Dependency
@@ -80,7 +81,7 @@ NO Dependency. Though it is not dependent on any 3rd party library or framework,
 - Online [Image Cropping](http://croppiconline.com/en)
 - Online [Sprite generator](https://www.leshylabs.com/apps/sstool)
 - Online [OCR](http://www.ocrconvert.com/)
-- Online [Image compress](http://optimizilla.com)
+- Online [Image compress](https://tinypng.com/)
 - Online [Image metadata viewer](http://regex.info/exif.cgi)
 - Online [Base64](http://jsfiddle.net/handtrix/xztfbx1m/)
  
