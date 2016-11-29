@@ -2,7 +2,7 @@
 # En-captcha 
 ![Image missing](https://github.com/SiddharthaChowdhury/enCAPTCHA/blob/master/img.webp)
 
-A "Completely Automated Public Turing test to tell Computers and Humans Apart" aka CAPTCHA, build on JavaScript, this plugin requires no dependencies. A simple integration to prevent bots from submiting your form
+A "Completely Automated Public Turing test to tell Computers and Humans Apart" aka CAPTCHA, build on JavaScript. Simple integration to prevent bots from submiting your form
 
 ##FEATURE
 
@@ -76,7 +76,7 @@ Tested in all modern browser ( IE-9+, Chrome, Opera, FF, Safari )
 <a name="dependency"></a>
 ##Dependency
 
-NO Dependency. It is **NOT** dependent on any library/framework like JQuery or as such.
+NO Dependency. Though it is not dependent on any 3rd party library or framework, but if you are using enCAPTCHA on any form which is NOT asynchronously submitted, it is recommended to have jQuery, will add an extra layer of security to enCAPTCHA.
 
 ##Resources##
 

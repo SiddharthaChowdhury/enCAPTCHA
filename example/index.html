@@ -59,7 +59,7 @@
 			</form>
 		</div>
 		<div class="container2" >
-			<form method="post" action="example.com">
+			<form method="post" id="form2" action="example.com">
 				<h4>Registration form</h4>
 				<div>
 					<label for="name"> Name</label>
@@ -91,23 +91,23 @@
 				allowed_attempt: 0
 			}
 		});
-		obj1.start();
-		
+
 		var obj2 = new Encaptcha({
 			config:{
 				container: '#captcha2',
 				reload_interval: 70,
 				themeColorHex: '#E6E6E6',
-				allowed_attempt: 0
-			},
-			onSuccess: function(){
-				console.log("YAY! success")
-			},
-			onFailure: function(){
-				console.log('Am i a robot?')
+				allowed_attempt: 0,
+				form: '#form2', 
+				// preCaptcha: function(){},
+				onfailure: function(){
+					console.log('CAPTCHA failed')
+				},
+				onSuccess: function(){
+					console.log('CAPTCHA success')
+				}
 			}
 		});
-		obj2.start();
 	});
 
 </script>

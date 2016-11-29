@@ -5,9 +5,12 @@ class Encaptcha {
 		this.reload_btn_text = raw.config.reloadBtn_text || 'Reload';
 		this.attempt = (raw.config.allowed_attempt > 0 ? raw.config.allowed_attempt : -1) || -1;
 		this.themeColorHex = raw.config.themeColorHex || '#CCC';
-		this.onsuccess	= raw.onSuccess || function(){};
+		// this.onsubmit	= { async: raw.onsubmit.async || true, form: raw.onsubmit.form || false,  }
 		this.onfailure	= raw.onFailure || function(){};
-		
+		this.onSuccess	= raw.onSuccess || function(){};
+		this.form  		= raw.config.form || false;
+
+		this.formID 	= null;
 		this.final 		= null;
 		this.timestamp 	= null;
 		this.reload_btn = null;
@@ -23,6 +26,8 @@ class Encaptcha {
 		this.canvas_diam= null;
 		this.atlas		= [{"name":"F","x":75,"y":0,"width":74,"height":97},{"name":"G","x":375,"y":0,"width":74,"height":97},{"name":"H","x":0,"y":98,"width":74,"height":97},{"name":"I","x":75,"y":98,"width":74,"height":97},{"name":"J","x":150,"y":0,"width":74,"height":97},{"name":"K","x":150,"y":98,"width":74,"height":97},{"name":"L","x":0,"y":196,"width":74,"height":97},{"name":"M","x":75,"y":196,"width":74,"height":97},{"name":"N","x":150,"y":196,"width":74,"height":97},{"name":"O","x":225,"y":0,"width":74,"height":97},{"name":"P","x":225,"y":98,"width":74,"height":97},{"name":"Q","x":225,"y":196,"width":74,"height":97},{"name":"R","x":300,"y":0,"width":74,"height":97},{"name":"S","x":300,"y":98,"width":74,"height":97},{"name":"T","x":300,"y":196,"width":74,"height":97},{"name":"U","x":0,"y":294,"width":74,"height":97},{"name":"v","x":75,"y":294,"width":74,"height":97},{"name":"W","x":150,"y":294,"width":74,"height":97},{"name":"X","x":225,"y":294,"width":74,"height":97},{"name":"Y","x":300,"y":294,"width":74,"height":97},{"name":"Z","x":0,"y":0,"width":74,"height":97},{"name":"#","x":365,"y":490,"width":69,"height":87},{"name":"$","x":295,"y":490,"width":69,"height":87},{"name":"%","x":225,"y":490,"width":69,"height":87},{"name":"&","x":0,"y":392,"width":74,"height":97},{"name":"@","x":75,"y":392,"width":74,"height":97},{"name":"0","x":150,"y":392,"width":74,"height":97},{"name":"1","x":225,"y":392,"width":74,"height":97},{"name":"2","x":300,"y":392,"width":74,"height":97},{"name":"3","x":375,"y":392,"width":74,"height":97},{"name":"4","x":450,"y":0,"width":74,"height":97},{"name":"5","x":450,"y":98,"width":74,"height":97},{"name":"6","x":450,"y":196,"width":74,"height":97},{"name":"7","x":450,"y":294,"width":74,"height":97},{"name":"8","x":450,"y":392,"width":74,"height":97},{"name":"9","x":0,"y":490,"width":74,"height":97},{"name":"A","x":75,"y":490,"width":74,"height":97},{"name":"B","x":375,"y":294,"width":74,"height":97},{"name":"C","x":375,"y":196,"width":74,"height":97},{"name":"D","x":375,"y":98,"width":74,"height":97},{"name":"E","x":150,"y":490,"width":74,"height":97}];
 		this.subAtlas	= [];
+
+		this.start();
 	}
 
 	cook_meta(){
@@ -33,8 +38,34 @@ class Encaptcha {
 		this.canvas_diam = { width: (this.char_count * this.char_diam.width), height: 50 }
 	}
 
-	crerate_dom(){
+	cook_dom(){
 		var self = this;
+		// Form submission handler
+		if(self.form != false){
+			if(document.querySelector(self.form) != null)
+			{
+				let form = document.querySelector(self.form);
+				let ctrlID = '';
+				let min = 0;
+				let max = 200;				
+				for(var i=0; i < 9; i++){
+					ctrlID +=  Math.floor(Math.random() * (max - min + 1)) + min;
+				}
+				self.formID = ctrlID;
+				form.setAttribute('data-captchaControlId', ctrlID) 
+				if(window.jQuery){
+					jQuery(self.form).on('submit', function(e){
+						e.preventDefault();
+					})
+				}
+				form.setAttribute('onsubmit', 'return false;')
+			}
+			else{
+				console.log("[ form ] value passed is not found in this page.");
+				alert("[ form ] value passed is not found in this page.");
+			}
+		}
+		// Build th eCAPTCHA UI
 		let wrapr = document.createElement('div');
 		wrapr.setAttribute('style', 'display: flex; flex-direction:column; background-color:'+this.themeColorHex+'; padding:3px 4px; width:'+((this.char_diam.width * 6) +14)+'px; margin:0px;');
 		wrapr.setAttribute('class', 'enc-wrapper');
@@ -55,7 +86,6 @@ class Encaptcha {
 				reload_btn.innerHTML = this.reload_btn_text;
 				
 				reload_btn.addEventListener('click', function(e){
-					// clearInterval(self.timerHandler);
 					self.draw_canvas();
 				})
 
@@ -132,17 +162,18 @@ class Encaptcha {
 
 	enc_success(){
 		clearInterval(this.timerHandler);
-		this.final.innerHTML = 'Validation complete'
-		this.onsuccess();
+		this.final.innerHTML = 'CAPTCHA validated'
 
+		this.onSuccess();
+		
+		this.onSuccess_SubmitHandler();
 	}
 
 	enc_failure(){
 		this.draw_canvas();
 		var self  = this;
-		// setTimeout(function(){
-			self.onfailure()
-		// },1000);
+		self.onfailure();
+		// return false;
 	}
 
 	lookup_encaptcha(_this){
@@ -153,13 +184,22 @@ class Encaptcha {
 			let yielde = ''
 			for(var i = 0; i < subAtlas.length; i++){
 				if(value.charAt(i) == subAtlas[i].name){
-					yielde+=subAtlas[i].name;
+					yielde += subAtlas[i].name;
 				}
 			}
 			// console.log(self.kyPressCnt)
 			if(yielde == value){
 				if(self.kyPressCnt >= self.char_count){
-					self.enc_success();
+					if(self.form != false){
+						if(document.querySelector(self.form) != null){
+							let formid = document.querySelector(self.form).getAttribute('data-captchacontrolid');
+							if(formid == self.formID){
+								self.enc_success();
+							} 
+						}
+					}
+					else
+						self.enc_success();
 				}
 				else
 					self.enc_failure();		
@@ -178,23 +218,37 @@ class Encaptcha {
 			}
 		}
 	}
+
+	onSuccess_SubmitHandler(){
+		var self = this; 
+		if(self.form != false){
+			if(document.querySelector(self.form) != null){
+				let formid = document.querySelector(self.form).getAttribute('data-captchacontrolid');
+				if(formid == self.formID){
+					if(window.jQuery){
+						jQuery(self.form).off('submit');
+					}
+					document.querySelector(self.form).setAttribute('onsubmit', '');
+				} 
+			}
+		}
+	}
 }
 
 Encaptcha.prototype.start = function(){
 
-	if(window.jQuery){
+	
 		if(document.querySelectorAll(this.container).length == 1){
 			var self = this;
 			this.load_spriteData();
 			this.cook_meta();
-			this.crerate_dom();
+			this.cook_dom();
 			
 			this.draw_canvas();
 			document.querySelector(this.container).append(this.final)
 		}
 		else
-			console.log('Value of [container] passed in config is INVALID ( either not-UNIQUE or doesnt exist in the current page)')
-	}
-	else
-		console.log('jQuery not loaded')
+			console.log('Value of [container] passed in config is INVALID (either not-UNIQUE or doesnt exist in the current page)')
+	
+
 }
