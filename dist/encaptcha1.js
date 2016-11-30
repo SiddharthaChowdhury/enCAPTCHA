@@ -5,8 +5,8 @@ class Encaptcha {
 		this.reload_btn_text = raw.config.reloadBtn_text || 'Reload';
 		this.attempt = (raw.config.allowed_attempt > 0 ? raw.config.allowed_attempt : -1) || -1;
 		this.themeColorHex = raw.config.themeColorHex || '#CCC';
-		this.onfailure	= raw.onFailure || function(){};
-		this.onSuccess	= raw.onSuccess || function(){};
+		this.onFailure	= raw.config.onFailure || function(){};
+		this.onSuccess	= raw.config.onSuccess || function(){};
 		this.form  		= raw.config.form || false;
 
 		this.formID 	= null;
@@ -168,7 +168,7 @@ class Encaptcha {
 	enc_failure(){
 		this.draw_canvas();
 		var self  = this;
-		self.onfailure();
+		self.onFailure();
 	}
 
 	lookup_encaptcha(_this){
